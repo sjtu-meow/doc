@@ -1,0 +1,906 @@
+swagger: '2.0'
+info:
+  description: Meow RESTful API Specification
+  version: 1.0.0
+  title: Meow
+host: meow.io
+basePath: /api
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+  - https
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      summary: Register new users
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: Invalid input
+  '/users/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int64
+    put:
+      tags:
+        - User
+      summary: Update an existing user
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: Invalid input
+        '403':
+          description: Permission required
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - User
+      summary: Delete a user
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+  '/users/{id}/follow':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Follow
+      - User
+      summary: Follow a user
+      responses:
+        '200':
+          description: Successful operation
+        '401': 
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+      - Follow
+      - User
+      summary: Unfollow a user
+      responses:
+        '200':
+          description: Successful operation
+        '401': 
+          description: User unlogined
+        '404':
+          description: Not found
+  '/users/{id}/profile':
+    get:
+      tags:
+        - User Profile
+      summary: Get user profile
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Profile'
+        '400':
+          description: Invalid input
+        '403':
+          description: Permission required
+    put:
+      tags:
+        - User Profile
+      summary: Update user profile
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Profile'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+        '400':
+          description: Invalid input
+        '403':
+          description: Permission required
+          
+  /moments:
+    post:
+      tags:
+        - Moment
+      summary: Create a new moment
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Moment'
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: User unlogined
+  '/moments/{id}':
+    parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int64
+    get:
+      tags:
+        - Moment
+      summary: Get a moment
+      
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid id
+    delete:
+      tags:
+        - Moment
+      summary: Delete a moment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found
+          
+  /articles:
+    get:
+      tags:
+      - Article
+      summary: Get articles
+      
+      parameters:
+      - in: query
+        name: page
+        required: false
+        type: integer
+        format: int64
+      - in: query
+        name: per_page
+        required: false
+        type: integer
+        format: int64      
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+        '404':
+          description: Not found
+    post:
+      tags:
+        - Article
+      summary: Create a new article
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Article'
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: User unlogined
+  '/articles/{id}':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Article
+      summary: Get an article
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid id
+    delete:
+      tags:
+        - Article
+      summary: Delete an article
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found  
+  /questions:
+    get:
+      tags:
+      - Article
+      summary: Get questions
+      
+      parameters:
+      - in: query
+        name: page
+        required: false
+        type: integer
+        format: int64
+      - in: query
+        name: per_page
+        required: false
+        type: integer
+        format: int64      
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+        '404':
+          description: Not found
+    post:
+      tags:
+        - Question
+      summary: Create a new question
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '401':
+          description: User unlogined
+    delete:
+      summary: Delete a question
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found 
+  '/questions/{id}':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Question
+      summary: Get a question with abstract of answers
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid id
+    delete:
+      tags:
+        - Question
+      summary: Delete a moment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found
+  '/questions/{id}/follow':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64  
+    get:
+      tags:
+      - Follow
+      - Question
+      summary: Follow a question
+      responses:
+        '200':
+          description: Successful operation
+        '401': 
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+      - Follow
+      - Question
+      summary: Unfollow a question
+      responses:
+        '200':
+          description: Successful operation
+        '401': 
+          description: User unlogined
+        '404':
+          description: Not found
+
+  '/questions/{id}/answers':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      summary: Get a question and its answers
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64      
+      responses:
+        '200':
+          description: Succssful operation
+          
+    post:
+      tags:
+        - Question
+        - Answer
+      summary: Create a new answer
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        '201':
+          description: Successful operation
+        '401':
+          description: User unlogined       
+        '404':
+          description: Not found     
+          
+    delete:
+      summary: Delete a answer
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found  
+        
+  '/moments/{id}/comments':
+    parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int64
+    get:
+      summary: Get comments
+      responses:
+        '200': 
+          description: Succssful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Comment"
+        '404':
+          description: Not found
+    post:
+      summary: Add a comment
+      parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201: 
+          description: Created
+        401: 
+          description: User unlogined
+    delete:
+      summary: Delete a comment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found
+  '/articles/{id}/comments':
+    parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int64
+    get:
+      summary: Get comments
+      responses:
+        '200': 
+          description: Succssful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Comment"
+        '404':
+          description: Not found
+    post:
+      summary: Add a comment
+      parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201: 
+          description: Created
+        401: 
+          description: User unlogined
+    delete:
+      summary: Delete a comment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found
+  '/answers/{id}/comments':
+    parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int64
+    get:
+      summary: Get comments
+      responses:
+        '200': 
+          description: Succssful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Comment"
+        '404':
+          description: Not found
+    post:
+      summary: Add a comment
+      parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201: 
+          description: Created
+        401: 
+          description: User unlogined
+    delete:
+      summary: Delete a comment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '403':
+          description: Permission required
+        '404':
+          description: Not found  
+          
+
+  '/users/{id}/moments':
+    get:
+      tags:
+        - User Detail
+      summary: Get a user's moments
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64      
+     
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Moment'
+  '/users/{id}/questions':
+    get:
+      tags:
+        - User Detail
+      summary: Get a user's questions
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64    
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+  '/users/{id}/articles':
+    get:
+      tags:
+        - User Detail
+      summary: Get a user's articles
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64    
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+  '/users/{id}/answers':
+    get:
+      tags:
+        - User Detail
+      summary: Get a user's answers
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64    
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+  '/users/{id}/following/articles':
+    get:
+      tags:
+        - Follow
+      summary: Get a user's following articles
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+  '/users/{id}/following/questions':
+    get:
+      tags:
+        - Follow
+      summary: Get a user's following questions
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+  '/users/{id}/following/users':
+    get:
+      tags:
+        - Follow
+      summary: Get a user's following users
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  /latest:
+    get:
+      parameters:
+      - in: query
+        name: page
+        required: false
+        type: integer
+        format: int64
+      - in: query
+        name: per_page
+        required: false
+        type: integer
+        format: int64          
+      tags:
+        - Latest
+      summary: Get latest recommendation for current user
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: object
+  /banners:
+    get:
+      tags:
+        - Banners
+      summary: Get banners
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Banner'
+    post:
+      tags:
+        - Banners
+      summary: Add a banner
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '403':
+          description: Permission required
+    delete:
+      tags:
+        - Banners
+      summary: Delete a banner
+      responses:
+        '200':
+          description: Successful operation
+        '403':
+          description: Permission required
+        '404':
+          description: Not found
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: identifier
+          in: formData
+          description: Username or phone
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The password for login in clear text
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/OAuthToken'
+        '400':
+          description: Invalid username/password supplied
+    delete:
+      tags:
+        - Auth
+      summary: Logout and invalidate access token
+      parameters:
+        - name: Access key
+          in: query
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid access key
+    put:
+      tags:
+        - Auth
+      summary: Refresh access key
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: access_key
+          in: formData
+          type: string
+          required: true
+        - name: refresh_key
+          in: formData
+          type: string
+          required: true
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid access or refresh key
+          
+definitions:
+  OAuthToken:
+    type: object
+    properties:
+      access_key:
+        type: string
+      refresh_key:
+        type: string
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      someOtherProperties:
+        type: object
+  Moment:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+  Question:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+  Comment:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+  Article:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+  Banner:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+  Answer:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64

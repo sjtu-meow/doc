@@ -25,6 +25,8 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
+        '201':
+          description: Created
         '400':
           description: Invalid input
   '/users/{id}':
@@ -69,25 +71,23 @@ paths:
         format: int64
     get:
       tags:
-      - Follow
-      - User
+        - Follow
       summary: Follow a user
       responses:
         '200':
           description: Successful operation
-        '401': 
+        '401':
           description: User unlogined
         '404':
           description: Not found
     delete:
       tags:
-      - Follow
-      - User
+        - Follow
       summary: Unfollow a user
       responses:
         '200':
           description: Successful operation
-        '401': 
+        '401':
           description: User unlogined
         '404':
           description: Not found
@@ -137,7 +137,6 @@ paths:
           description: Invalid input
         '403':
           description: Permission required
-          
   /moments:
     post:
       tags:
@@ -156,16 +155,15 @@ paths:
           description: User unlogined
   '/moments/{id}':
     parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          format: int64
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
     get:
       tags:
         - Moment
       summary: Get a moment
-      
       responses:
         '200':
           description: Successful operation
@@ -184,24 +182,22 @@ paths:
           description: Permission required
         '404':
           description: Not found
-          
   /articles:
     get:
       tags:
-      - Article
+        - Article
       summary: Get articles
-      
       parameters:
-      - in: query
-        name: page
-        required: false
-        type: integer
-        format: int64
-      - in: query
-        name: per_page
-        required: false
-        type: integer
-        format: int64      
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -223,7 +219,7 @@ paths:
             $ref: '#/definitions/Article'
       responses:
         '201':
-          description: Successful operation
+          description: Created
         '401':
           description: User unlogined
   '/articles/{id}':
@@ -254,24 +250,23 @@ paths:
         '403':
           description: Permission required
         '404':
-          description: Not found  
+          description: Not found
   /questions:
     get:
       tags:
-      - Article
+        - Question
       summary: Get questions
-      
       parameters:
-      - in: query
-        name: page
-        required: false
-        type: integer
-        format: int64
-      - in: query
-        name: per_page
-        required: false
-        type: integer
-        format: int64      
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -293,12 +288,14 @@ paths:
             $ref: '#/definitions/Question'
       responses:
         '201':
-          description: Successful operation
+          description: Created
         '400':
           description: Invalid input
         '401':
           description: User unlogined
     delete:
+      tags:
+        - Question
       summary: Delete a question
       responses:
         '200':
@@ -308,7 +305,7 @@ paths:
         '403':
           description: Permission required
         '404':
-          description: Not found 
+          description: Not found
   '/questions/{id}':
     parameters:
       - in: path
@@ -344,32 +341,29 @@ paths:
         name: id
         required: true
         type: integer
-        format: int64  
+        format: int64
     get:
       tags:
-      - Follow
-      - Question
+        - Follow
       summary: Follow a question
       responses:
         '200':
           description: Successful operation
-        '401': 
+        '401':
           description: User unlogined
         '404':
           description: Not found
     delete:
       tags:
-      - Follow
-      - Question
+        - Follow
       summary: Unfollow a question
       responses:
         '200':
           description: Successful operation
-        '401': 
+        '401':
           description: User unlogined
         '404':
           description: Not found
-
   '/questions/{id}/answers':
     parameters:
       - in: path
@@ -378,6 +372,9 @@ paths:
         type: integer
         format: int64
     get:
+      tags:
+        - Question
+        - Answer
       summary: Get a question and its answers
       parameters:
         - in: query
@@ -389,11 +386,10 @@ paths:
           name: per_page
           required: false
           type: integer
-          format: int64      
+          format: int64
       responses:
         '200':
           description: Succssful operation
-          
     post:
       tags:
         - Question
@@ -407,13 +403,15 @@ paths:
             $ref: '#/definitions/Answer'
       responses:
         '201':
-          description: Successful operation
+          description: Created
         '401':
-          description: User unlogined       
+          description: User unlogined
         '404':
-          description: Not found     
-          
+          description: Not found
     delete:
+      tags:
+        - Question
+        - Answer
       summary: Delete a answer
       responses:
         '200':
@@ -423,39 +421,47 @@ paths:
         '403':
           description: Permission required
         '404':
-          description: Not found  
-        
+          description: Not found
   '/moments/{id}/comments':
     parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          format: int64
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
     get:
+      tags:
+        - Moment
+        - Comment
       summary: Get comments
       responses:
-        '200': 
+        '200':
           description: Succssful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Comment"
+              $ref: '#/definitions/Comment'
         '404':
           description: Not found
     post:
+      tags:
+        - Moment
+        - Comment
       summary: Add a comment
       parameters:
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Comment"
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Comment'
       responses:
-        201: 
+        '201':
           description: Created
-        401: 
+        '401':
           description: User unlogined
     delete:
+      tags:
+        - Moment
+        - Comment
       summary: Delete a comment
       responses:
         '200':
@@ -468,35 +474,44 @@ paths:
           description: Not found
   '/articles/{id}/comments':
     parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          format: int64
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
     get:
+      tags:
+        - Article
+        - Comment
       summary: Get comments
       responses:
-        '200': 
+        '200':
           description: Succssful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Comment"
+              $ref: '#/definitions/Comment'
         '404':
           description: Not found
     post:
+      tags:
+        - Article
+        - Comment
       summary: Add a comment
       parameters:
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Comment"
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Comment'
       responses:
-        201: 
+        '201':
           description: Created
-        401: 
+        '401':
           description: User unlogined
     delete:
+      tags:
+        - Article
+        - Comment
       summary: Delete a comment
       responses:
         '200':
@@ -509,35 +524,44 @@ paths:
           description: Not found
   '/answers/{id}/comments':
     parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          format: int64
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
     get:
+      tags:
+        - Answer
+        - Comment
       summary: Get comments
       responses:
-        '200': 
+        '200':
           description: Succssful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Comment"
+              $ref: '#/definitions/Comment'
         '404':
           description: Not found
     post:
+      tags:
+        - Answer
+        - Comment
       summary: Add a comment
       parameters:
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Comment"
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Comment'
       responses:
-        201: 
+        '201':
           description: Created
-        401: 
+        '401':
           description: User unlogined
     delete:
+      tags:
+        - Answer
+        - Comment
       summary: Delete a comment
       responses:
         '200':
@@ -547,21 +571,13 @@ paths:
         '403':
           description: Permission required
         '404':
-          description: Not found  
-          
-
-  '/users/{id}/moments':
+          description: Not found
+  /users/questions:
     get:
       tags:
         - User Detail
-      summary: Get a user's moments
+      summary: Get current user's questions
       parameters:
-        - name: id
-          in: path
-          description: User id
-          type: integer
-          format: int64
-          required: true
         - in: query
           name: page
           required: false
@@ -571,8 +587,82 @@ paths:
           name: per_page
           required: false
           type: integer
-          format: int64      
-     
+          format: int64
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+        '401':
+          description: User unlogined
+  /users/articles:
+    get:
+      tags:
+        - User Detail
+      summary: Get current user's articles
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+        '401':
+          description: User unlogined
+  /users/answers:
+    get:
+      tags:
+        - User Detail
+      summary: Get current user's answers
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+        '401':
+          description: User unlogined
+  /users/moments:
+    get:
+      tags:
+        - User Detail
+      summary: Get current user's moments
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -580,6 +670,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Moment'
+        '401':
+          description: User unlogined
   '/users/{id}/questions':
     get:
       tags:
@@ -601,7 +693,7 @@ paths:
           name: per_page
           required: false
           type: integer
-          format: int64    
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -630,7 +722,7 @@ paths:
           name: per_page
           required: false
           type: integer
-          format: int64    
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -659,7 +751,7 @@ paths:
           name: per_page
           required: false
           type: integer
-          format: int64    
+          format: int64
       responses:
         '200':
           description: Successful operation
@@ -667,11 +759,11 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
-  '/users/{id}/following/articles':
+  '/users/{id}/moments':
     get:
       tags:
-        - Follow
-      summary: Get a user's following articles
+        - User Detail
+      summary: Get a user's moments
       parameters:
         - name: id
           in: path
@@ -679,17 +771,55 @@ paths:
           type: integer
           format: int64
           required: true
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
       responses:
         '200':
           description: Successful operation
           schema:
             type: array
             items:
-              $ref: '#/definitions/Article'
+              $ref: '#/definitions/Moment'
+  /users/following/questions:
+    get:
+      tags:
+        - Following
+      summary: Get current user's following questions
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+        '401':
+          description: User unlogined
+  /users/following/users:
+    get:
+      tags:
+        - Following
+      summary: Get current user's following users
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '401':
+          description: User unlogined
   '/users/{id}/following/questions':
     get:
       tags:
-        - Follow
+        - Following
       summary: Get a user's following questions
       parameters:
         - name: id
@@ -708,7 +838,7 @@ paths:
   '/users/{id}/following/users':
     get:
       tags:
-        - Follow
+        - Following
       summary: Get a user's following users
       parameters:
         - name: id
@@ -724,19 +854,34 @@ paths:
             type: array
             items:
               $ref: '#/definitions/User'
+  /users/favorite:
+    get:
+      tags:
+        - User Detail
+        - Favorite
+      summary: Get current user's favorite list (mixed contents)
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              type: object
+        '401':
+          description: User unlogined
   /latest:
     get:
       parameters:
-      - in: query
-        name: page
-        required: false
-        type: integer
-        format: int64
-      - in: query
-        name: per_page
-        required: false
-        type: integer
-        format: int64          
+        - in: query
+          name: page
+          required: false
+          type: integer
+          format: int64
+        - in: query
+          name: per_page
+          required: false
+          type: integer
+          format: int64
       tags:
         - Latest
       summary: Get latest recommendation for current user
@@ -779,6 +924,188 @@ paths:
           description: Permission required
         '404':
           description: Not found
+  '/moments/{id}/like':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Like
+      summary: Like a moment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Like
+      summary: Unlike a moment
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  '/moments/{id}/favorite':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Favorite
+      summary: Add a moment to favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Favorite
+      summary: Remove a moment from favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  '/articles/{id}/like':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Like
+      summary: Like an article
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Like
+      summary: Unlike an article
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  '/articles/{id}/favorite':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Favorite
+      summary: Add an article to favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Favorite
+      summary: Remove an article from favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  '/answers/{id}/like':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Like
+      summary: Like an answer
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Like
+      summary: Unlike an answer
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  '/answers/{id}/favorite':
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        format: int64
+    get:
+      tags:
+        - Favorite
+      summary: Add an answer to favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Favorite
+      summary: Remove an answer from favorite
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: User unlogined
+        '404':
+          description: Not found
+  /report:
+    post:
+      tags:
+        - Report
+      summary: Report anything
+      responses:
+        '201':
+          description: Successful operation
   /auth:
     post:
       tags:
@@ -837,7 +1164,6 @@ paths:
           description: successful operation
         '400':
           description: Invalid access or refresh key
-          
 definitions:
   OAuthToken:
     type: object

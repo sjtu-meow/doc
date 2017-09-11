@@ -65,4 +65,4 @@
 详见 Presentation 子目录
 
 - [ ] 演示视频
-- [ ] 演示 PPT
+- [x] 演示 PPT
